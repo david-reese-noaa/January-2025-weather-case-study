@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBM Forecast Slider</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .widget-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        .map-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            min-height: 300px; /* Prevents jumping before image loads */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #mapImage {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .slider-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0056b3;
+        }
+        input[type=range] {
+            width: 90%;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="widget-container">
+        <h2>Model Forecast Viewer</h2>
+        
+        <div class="map-container">
+            <!-- Defaults to the first frame (hour 12) -->
+            <img id="mapImage" src="images/rain_f012.png" alt="Weather Map">
+        </div>
+
+        <div class="controls">
+            <div class="slider-label">Forecast Hour: +<span id="hourDisplay">12</span></div>
+            
+            <!-- min, max, and step match the Python array [12, 18, 24, 30, 36, 42, 48] -->
+            <input type="range" id="timeSlider" min="12" max="48" step="6" value="12">
+        </div>
+    </div>
+
+    <script>
+        // Setup variables
+        const slider = document.getElementById('timeSlider');
+        const mapImage = document.getElementById('mapImage');
+        const hourDisplay = document.getElementById('hourDisplay');
+        
+        // Define the forecast hours we generated
+        const forecastHours = [12, 18, 24, 30, 36, 42, 48];
+        const preloadedImages = {};
+
+        // 1. Preload images so scrubbing is instant and seamless
+        function preloadImages() {
+            forecastHours.forEach(hour => {
+                const paddedHour = String(hour).padStart(3, '0');
+                const img = new Image();
+                img.src = `images/rain_f${paddedHour}.png`;
+                preloadedImages[hour] = img;
+            });
+        }
+
+        // 2. Update the image and text when slider moves
+        slider.addEventListener('input', (event) => {
+            const currentHour = event.target.value;
+            const paddedHour = String(currentHour).padStart(3, '0');
+            
+            // Update label
+            hourDisplay.textContent = currentHour;
+            
+            // Update image source
+            mapImage.src = `images/rain_f${paddedHour}.png`;
+        });
+
+        // Run preloader on load
+        window.onload = preloadImages;
+    </script>
+
+</body>
+</html>
