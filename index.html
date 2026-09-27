@@ -71,7 +71,7 @@
         
         <div class="map-container">
             <!-- Defaults to the first frame (hour 12) -->
-            <img id="mapImage" src="images/rain_temp_20250120_f012.png" alt="Weather Map">
+            <img id="mapImage" src="images/rain_temp_f20250120_f012.png" alt="Weather Map">
         </div>
 
         <div class="controls">
@@ -97,7 +97,7 @@
             forecastHours.forEach(hour => {
                 const paddedHour = String(hour).padStart(3, '0');
                 const img = new Image();
-                img.src = `images/rain_temp_20250120_f${paddedHour}.png`;
+                img.src = `images/rain_temp_f20250120_f${paddedHour}.png`;
                 preloadedImages[hour] = img;
             });
         }
