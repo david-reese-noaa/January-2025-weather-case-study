@@ -77,8 +77,8 @@
         <div class="controls">
             <div class="slider-label">Forecast Hour: +<span id="hourDisplay">12</span></div>
             
-            <!-- min, max, and step match the Python array [12, 18, 24, 30, 36, 42, 48] -->
-            <input type="range" id="timeSlider" min="12" max="48" step="6" value="12">
+            <!-- min, max, and step match the Python array [12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84] -->
+            <input type="range" id="timeSlider" min="12" max="84" step="6" value="12">
         </div>
     </div>
 
@@ -89,7 +89,7 @@
         const hourDisplay = document.getElementById('hourDisplay');
         
         // Define the forecast hours we generated
-        const forecastHours = [12, 18, 24, 30, 36, 42, 48];
+        const forecastHours = [12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84];
         const preloadedImages = {};
 
         // 1. Preload images so scrubbing is instant and seamless
